@@ -265,6 +265,11 @@ open class SVGParser {
             switch element.name {
             case "g":
                 result = try parseGroup(node, style: style)
+                if let clipPath = style["clip-path"], let id = parseIdFromUrl(clipPath) {
+                    if let userSpaceLocus = defClip[id], result?.clip == nil {
+                        result?.clip = userSpaceLocus.locus
+                    }
+                }
             case "style", "defs":
                 // do nothing - it was parsed on first iteration
                 return .none
