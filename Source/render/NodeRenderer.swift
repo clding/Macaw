@@ -130,7 +130,9 @@ class NodeRenderer {
         let newOpacity = node.opacity * opacity
 
         context.concatenate(node.place.toCG())
-        applyClip(in: context)
+        if !(self is ImageRenderer) {
+            applyClip(in: context)
+        }
 
         // draw masked image
         if let mask = node.mask, let bounds = mask.bounds {
