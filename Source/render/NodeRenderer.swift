@@ -30,7 +30,7 @@ class NodeRenderer {
     var zPosition: Int = 0
 
     private(set) weak var parentRenderer: GroupRenderer?
-    
+
     fileprivate let onNodeChange: () -> Void
     fileprivate let disposables = GroupDisposable()
     fileprivate var active = false
@@ -256,7 +256,8 @@ class NodeRenderer {
     }
 
     func renderToImage(bounds: Rect, inset: Double = 0, coloringMode: ColoringMode = .rgb) -> MImage {
-        MGraphicsBeginImageContextWithOptions(CGSize(width: bounds.w + inset, height: bounds.h + inset), false, 1)
+        let screenScale: CGFloat = MMainScreen()?.mScale ?? 1.0
+        MGraphicsBeginImageContextWithOptions(CGSize(width: bounds.w + inset, height: bounds.h + inset), false, screenScale)
         let tempContext = MGraphicsGetCurrentContext()!
 
         // flip y-axis and leave space for the blur
